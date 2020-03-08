@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace Flights.Api
 {
@@ -20,6 +21,11 @@ namespace Flights.Api
         {
             services.AddControllers();
             services.AddSingleton<IFlightContext, FlightContext>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Flights API", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -29,6 +35,13 @@ namespace Flights.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Flights API v1");
+                c.RoutePrefix = string.Empty;
+            });
+            
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();

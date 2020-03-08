@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Flights.Core.Data;
 using Flights.Core.Models;
 using Flights.Core.Utility;
@@ -20,13 +21,13 @@ namespace Flights.Api.Controllers
         }
 
         [HttpGet("{search}")]
-        public IActionResult GetByOperator([FromQuery] string flightOperator)
+        public IActionResult GetByOperator([FromQuery][Required] string flightOperator)
         {
             var data = flightData.GetFlightsByOperator(flightOperator);
             return data != null ? Ok(data) : (IActionResult) BadRequest();
         }
 
-        [HttpPost("{add}")]
+        [HttpPost]
         public IActionResult Add([FromBody] FlightDto flight)
         {
             var model = Mapper.MapProperties<FlightDto, Flight>(flight, new Flight());
@@ -34,15 +35,15 @@ namespace Flights.Api.Controllers
             return Ok(flightData.AddFlight(model));
         }
 
-        [HttpPut("{update}")]
+        [HttpPut]
         public IActionResult Update([FromBody] Flight flight)
         {
             if (!flightData.UpdateFlight(flight)) return BadRequest();
             return Ok();
         }
 
-        [HttpDelete("{delete}")]
-        public IActionResult Delete([FromQuery] int identifier)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery][Required] int identifier)
         {
             if (!flightData.RemoveFlight(identifier)) return BadRequest();
             return Ok();
