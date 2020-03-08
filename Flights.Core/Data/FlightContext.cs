@@ -24,11 +24,18 @@ namespace Flights.Core.Data
             flightData.Add(newFlight);
         }
 
-        public List<Flight> GetAllFlights() => new List<Flight>(flightData);
-
-        public List<Flight> GetFlightsByOperator(string oper)
+        public List<FlightDto> GetAllFlights()
         {
-            return new List<Flight>(flightData.FindAll(x => x.Operator == oper));
+            var mappedObjects = flightData.Select(x => 
+                Mapper.MapProperties<Flight, FlightDto>(x, new FlightDto())).ToList();
+            return mappedObjects;
+        }
+
+        public List<FlightDto> GetFlightsByOperator(string flightOperator)
+        {
+            var mappedObjects = flightData.FindAll(x => x.Operator == flightOperator).Select(x => 
+                Mapper.MapProperties<Flight, FlightDto>(x, new FlightDto())).ToList();
+            return mappedObjects;
         }
 
         public void RemoveFlight(Flight flight) => flightData.Remove(flight);

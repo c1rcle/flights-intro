@@ -3,12 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Flights.Api.Controllers
 {
-    [Route("flights/[controller]")]
     [ApiController]
-    public class FlightController : ControllerBase
+    [Route("/[controller]")]
+    public class FlightsController : ControllerBase
     {
-        private IFlightContext flightData;
+        private readonly IFlightContext flightData;
 
-        public FlightController(IFlightContext flightData) => this.flightData = flightData;
+        public FlightsController(IFlightContext flightData) => this.flightData = flightData;
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(flightData.GetAllFlights());
+        }
     }
 }

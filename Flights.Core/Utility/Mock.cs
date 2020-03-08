@@ -4,7 +4,7 @@ using Flights.Core.Models;
 
 namespace Flights.Core.Utility
 {
-    public class Mock
+    public static class Mock
     {
         public static List<Flight> GetMockData()
         {

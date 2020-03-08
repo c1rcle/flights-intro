@@ -7,9 +7,9 @@ namespace Flights.Core.Data
     {
         void AddFlight(FlightDto flight);
 
-        List<Flight> GetFlightsByOperator(string oper);
+        List<FlightDto> GetFlightsByOperator(string flightOperator);
 
-        List<Flight> GetAllFlights();
+        List<FlightDto> GetAllFlights();
 
         void UpdateFlight(Flight flight);
 
