@@ -5,7 +5,7 @@ namespace Flights.Core.Data
 {
     public interface IFlightContext
     {
-        void AddFlight(Flight flight);
+        void AddFlight(FlightDto flight);
 
         List<Flight> GetFlightsByOperator(string oper);
 

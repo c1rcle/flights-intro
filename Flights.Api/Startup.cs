@@ -1,3 +1,4 @@
+using Flights.Core.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace Flights.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IFlightContext, FlightContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -11,10 +11,17 @@ namespace Flights.Core.Data
 
         public FlightContext() => flightData = Mock.GetMockData();
 
-        public void AddFlight(Flight flight)
+        public void AddFlight(FlightDto flight)
         {
-            flight.Identifier = flightData.DefaultIfEmpty().Max(x => x.Identifier) + 1;
-            flightData.Add(flight);
+            var newFlight = new Flight() 
+            { 
+                Operator = flight.Operator,
+                Date = flight.Date, 
+                Origin = flight.Origin, 
+                Destination = flight.Destination 
+            };
+            newFlight.Identifier = flightData.DefaultIfEmpty().Max(x => x.Identifier) + 1;
+            flightData.Add(newFlight);
         }
 
         public List<Flight> GetAllFlights() => new List<Flight>(flightData);
