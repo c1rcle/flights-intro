@@ -5,14 +5,14 @@ namespace Flights.Core.Data
 {
     public interface IFlightContext
     {
-        void AddFlight(FlightDto flight);
+        FlightDto AddFlight(Flight flight);
 
         List<FlightDto> GetFlightsByOperator(string flightOperator);
 
         List<FlightDto> GetAllFlights();
 
-        void UpdateFlight(Flight flight);
+        bool UpdateFlight(Flight flight);
 
-        void RemoveFlight(Flight flight);
+        bool RemoveFlight(int identifier);
     }
 }

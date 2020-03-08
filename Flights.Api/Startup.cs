@@ -19,7 +19,7 @@ namespace Flights.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IFlightContext, FlightContext>();
+            services.AddSingleton<IFlightContext, FlightContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

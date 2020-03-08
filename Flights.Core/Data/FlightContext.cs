@@ -11,17 +11,11 @@ namespace Flights.Core.Data
 
         public FlightContext() => flightData = Mock.GetMockData();
 
-        public void AddFlight(FlightDto flight)
+        public FlightDto AddFlight(Flight flight)
         {
-            var newFlight = new Flight() 
-            { 
-                Operator = flight.Operator,
-                Date = flight.Date, 
-                Origin = flight.Origin, 
-                Destination = flight.Destination 
-            };
-            newFlight.Identifier = flightData.DefaultIfEmpty().Max(x => x.Identifier) + 1;
-            flightData.Add(newFlight);
+            flight.Identifier = flightData.DefaultIfEmpty().Max(x => x.Identifier) + 1;
+            flightData.Add(flight);
+            return Mapper.MapProperties<Flight, FlightDto>(flight, new FlightDto());
         }
 
         public List<FlightDto> GetAllFlights()
@@ -38,15 +32,25 @@ namespace Flights.Core.Data
             return mappedObjects;
         }
 
-        public void RemoveFlight(Flight flight) => flightData.Remove(flight);
+        public bool RemoveFlight(int identifier)
+        {
+            var flightToRemove = flightData.Find(x => x.Identifier == identifier);
+            if (flightToRemove == null) return false;
 
-        public void UpdateFlight(Flight flight)
+            flightData.Remove(flightToRemove);
+            return true;
+        }
+
+        public bool UpdateFlight(Flight flight)
         {
             var flightToUpdate = flightData.Find(x => x.Identifier == flight.Identifier);
+            if (flightToUpdate == null) return false;
+
             foreach (var property in flight.GetType().GetProperties())
             {
                 property.SetValue(flightToUpdate, property.GetValue(flight));
             }
+            return true;
         }
-  }
+    }
 }
